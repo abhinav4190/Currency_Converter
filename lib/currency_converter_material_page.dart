@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CurrencyConverterMaterialPage extends StatelessWidget {
+class CurrencyConverterMaterialPage extends StatefulWidget {
   const CurrencyConverterMaterialPage({super.key});
   @override
+  State createState() => CurrencyConverterMaterialPageState();
+}
+
+class CurrencyConverterMaterialPageState extends State {
+  double result = 0;
+  TextEditingController extractedValue = TextEditingController();
+  void convert() {
+    result = double.parse(extractedValue.text) * 83.38;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    extractedValue.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('widget build');
     final border = OutlineInputBorder(
       borderSide: const BorderSide(
         width: 2.5,
@@ -21,19 +40,20 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
       ),
       backgroundColor: Colors.blueGrey,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              '0',
-              style: TextStyle(
-                  fontSize: 55,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-              child: TextField(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'INR ${result != 0 ? result.toStringAsFixed(2) : 0}',
+                style: const TextStyle(
+                    fontSize: 55,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              TextField(
+                controller: extractedValue,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: 'Please Enter The Amount In USD',
@@ -50,11 +70,11 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ElevatedButton(
-                onPressed: () {},
+              const SizedBox(
+                height: 12,
+              ),
+              ElevatedButton(
+                onPressed: convert,
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
@@ -68,9 +88,9 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
                   "Convert",
                   style: TextStyle(fontSize: 16),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
